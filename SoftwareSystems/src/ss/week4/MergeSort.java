@@ -9,26 +9,27 @@ public class MergeSort {
     	}
     	
     	int mid = list.size() / 2;
+    	System.out.println(mid);
     	
-    	List<Elem> l1 = list.subList(0, mid);
-    	List<Elem> l2 = list.subList(mid, list.size() - 1);
+    	List<Elem> l1 = new ArrayList<Elem>();
+    	Collections.copy(l1, list.subList(0, mid));
+    	List<Elem> l2 = new ArrayList<Elem>(list.size() / 2);
+    	Collections.copy(l2, list.subList(mid, l2.size()));
+    	
+    	list.clear();
+    	
+    	System.out.println(list.toString());
+    	System.out.println(l1.toString());
     	
     	mergesort(l1);
     	mergesort(l2);
     	
-    	int count1 = 0;
-    	int count2 = 0;
     	
-    	while(count1 < l1.size() && count2 < l2.size()){
-    		if(l1.get(count1).compareTo(l2.get(count2)) < 0){
-    			
-    		}
-    	}
+    	return;
     }
     
-    public static void main(String[] args){
+    public static void main(String[] args) {
     	List<Integer> sequence = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
-    	System.out.println(sequence.get(0).toString());
-    	mergesort(sequence);
+        MergeSort.mergesort(sequence);
     }
 }
