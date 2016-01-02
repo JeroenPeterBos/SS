@@ -12,7 +12,6 @@ import ss.week5.SmartStrategy;
  */
 public class TicTacToe {
     public static void main(String[] args) {
-        System.out.println(args.length);
         
         Player p1;
         if(args.length > 0){
