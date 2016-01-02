@@ -10,25 +10,53 @@ public class MergeSort {
     	
     	int mid = list.size() / 2;
     	
-    	List<Elem> l1 = list.subList(0, mid);
-    	List<Elem> l2 = list.subList(mid, list.size() - 1);
+    	List<Elem> l1 = new ArrayList<Elem>();
+    	for(int i = 0; i < mid; i++){
+    		l1.add(list.get(i));
+    	}
+    	
+    	List<Elem> l2 = new ArrayList<Elem>();
+    	for(int i = mid; i < list.size(); i++){
+    		l2.add(list.get(i));
+    	}
     	
     	mergesort(l1);
     	mergesort(l2);
     	
-    	int count1 = 0;
-    	int count2 = 0;
+    	list.clear();
+    	List<Elem> tempList = merge(l1, l2);
     	
-    	while(count1 < l1.size() && count2 < l2.size()){
-    		if(l1.get(count1).compareTo(l2.get(count2)) < 0){
-    			
-    		}
+    	for(int i = 0; i < tempList.size(); i++){
+    		list.add(tempList.get(i));
     	}
     }
     
-    public static void main(String[] args){
+    public static <Elem extends Comparable<Elem>> List<Elem> merge(List<Elem> l1, List<Elem> l2) {
+    	List<Elem> temp = new ArrayList<Elem>();
+    	while(l1.size() > 0 && l2.size() > 0){
+    		if(l1.get(0).compareTo(l2.get(0)) < 0){
+    			temp.add(l1.get(0));
+    			l1.remove(0);
+    		} else {
+    			temp.add(l2.get(0));
+    			l2.remove(0);
+    		}
+    	}
+    	
+    	while(l1.size() > 0){
+    		temp.add(l1.get(0));
+    		l1.remove(0);
+    	}
+    	while(l2.size() > 0) {
+    		temp.add(l2.get(0));
+    		l2.remove(0);
+    	}
+    	
+    	return temp;
+    }
+    
+    public static void main(String[] args) {
     	List<Integer> sequence = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
-    	System.out.println(sequence.get(0).toString());
-    	mergesort(sequence);
+        MergeSort.mergesort(sequence);
     }
 }

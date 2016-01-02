@@ -1,5 +1,7 @@
 package ss.week4;
 
+import java.util.List;
+
 public class LinkedList<Element> {
 
     private /*@ spec_public @*/ int size;
@@ -26,11 +28,25 @@ public class LinkedList<Element> {
 
     //@ ensures this.size == \old(size) - 1;
     public void remove(Element element) {
-        // TODO: implement, see exercise P-4.18
+        Node n = findBefore(element);
+        if(n == null){
+        	first = first.next;
+        	size--;
+        	return;
+        }
+        n.next = n.next.next;
+        size--;
     }
 
     public Node findBefore(Element element) {
-        // TODO: implement, see exercise P-4.18
+    	Node p = first;
+        while(p.next != null){
+        	if(p.next.getElement().equals(element)){
+        		return p;
+        	}
+        	p = p.next;
+        }
+        return null;
     }
 
     //@ requires 0 <= index && index < this.size();
@@ -67,5 +83,18 @@ public class LinkedList<Element> {
         public Element getElement() {
             return element;
         }
+    }
+    
+    public static void main(String[] args){
+    	LinkedList<Object> list = new LinkedList<>();
+
+        Object object1 = new Object();
+        Object object2 = new Object();
+        Object object3 = new Object();
+        list.add(0, object1);
+        list.add(1, object2);
+        list.add(2, object3);
+        
+        System.out.println(list.findBefore(object2));
     }
 }
