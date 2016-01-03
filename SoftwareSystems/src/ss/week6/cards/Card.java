@@ -6,12 +6,13 @@ import java.io.DataOutput;
 import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.Scanner;
 
-import java.io.DataInputStream;
-
-public class Card
+public class Card implements Serializable
 {
 
 	// ---- constants -----------------------------------
@@ -344,6 +345,10 @@ public class Card
 		out.writeByte(rank);
 	}
 	
+	public void write(ObjectOutput out) throws IOException{
+		out.writeObject(this);
+	}
+	
 	public static Card read(BufferedReader in) throws EOFException {
 		Scanner scanner = new Scanner(in);
 		
@@ -370,13 +375,26 @@ public class Card
 			rank = in.readChar();	
 		} catch(IOException e){
 			e.printStackTrace();
+			throw new EOFException();
 		}
-		
-		if()
+
 		
 		if(!Card.isValidSuit(suit) || !Card.isValidRank(rank)){
 			return null;
 		}
+		
+		return new Card(suit, rank);
+	}
+	
+	public static Card read(ObjectInput in) throws EOFException{
+		Card result;
+		try {
+			 result = (Card)in.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+			throw new EOFException();
+		}
+		return result;
 	}
 	
 	public static void main(String[] args){
