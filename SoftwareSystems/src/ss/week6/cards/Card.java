@@ -1,5 +1,16 @@
 package ss.week6.cards;
 
+import java.io.BufferedReader;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+import java.io.DataInputStream;
+
 public class Card
 {
 
@@ -36,8 +47,7 @@ public class Card
 	 */
 	private static String rankChar2String(char rank) {
 		int i;
-		for (i = 0; i < 13 && RANK_CHARACTERS[i] != rank; i++)
-			;
+		for (i = 0; i < 13 && RANK_CHARACTERS[i] != rank; i++);
 		return (i == 13) ? null : RANK_STRINGS[i];
 	}
 
@@ -319,5 +329,74 @@ public class Card
 	 */
 	public boolean isInRankBefore(Card card) {
 		return isRankFollowing(this.getRank(), card.getRank());
+	}
+	
+	/**
+	 * Writes a description of itself to the printwriter.
+	 * @param out the output PrintWriter
+	 */
+	public void write(PrintWriter out){
+		out.write(toString() + " ");
+	}
+	
+	public void write(DataOutput out) throws IOException{
+		out.writeByte(suit);
+		out.writeByte(rank);
+	}
+	
+	public static Card read(BufferedReader in) throws EOFException {
+		Scanner scanner = new Scanner(in);
+		
+		if(!scanner.hasNext()){
+			scanner.close();
+			throw new EOFException();
+		}
+		
+		char s = Card.suitString2Char(scanner.next());
+		char r = Card.rankString2Char(scanner.next());
+		
+		scanner.close();
+		if(!Card.isValidRank(r) || !Card.isValidSuit(s)){
+			return null;
+		}	
+		return new Card(s,r);
+	}
+	
+	public static Card read(DataInput in) throws EOFException{
+		char suit, rank;
+		
+		try{
+			suit = in.readChar();
+			rank = in.readChar();	
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		if()
+		
+		if(!Card.isValidSuit(suit) || !Card.isValidRank(rank)){
+			return null;
+		}
+	}
+	
+	public static void main(String[] args){
+		Card c = new Card('C', '8');
+		Card c2 = new Card('H', 'K');
+		
+		try {
+			PrintWriter out;
+			if(args.length < 1){
+				out = new PrintWriter(System.out);
+			} else {
+				out = new PrintWriter(args[0]);
+			}
+			c.write(out);
+			c2.write(out);
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -1,13 +1,14 @@
 package ss.week6.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import ss.week6.ArgumentLengthsDifferException;
 import ss.week6.TooFewArgumentsException;
 import ss.week6.WrongArgumentException;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Testprogram for ArgumentException.
