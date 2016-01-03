@@ -74,6 +74,7 @@ public class Game {
             reset();
             play();
             doorgaan = readBoolean("\n> Play another time? (y/n)?", "y", "n");
+            // TODO: na deze regel denkt de scanner meteen weer een regel te moeten lezen.
         }
     }
 
