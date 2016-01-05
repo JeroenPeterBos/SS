@@ -11,7 +11,7 @@ public class IntProducer extends Thread {
 	private IntCell cell;
 
 	public IntProducer(int nrArg, IntCell cellArg) {
-		super("Producer " + nrArg);
+		super("> Producer " + nrArg);
 		this.nr = nrArg;
 		this.cell = cellArg;
 	}
@@ -24,8 +24,9 @@ public class IntProducer extends Thread {
 				e.printStackTrace();
 			}
 			int val = 10 * nr + i;
-			System.out.println(getName() + ": " + val + " written");
+			
 			cell.setValue(val);
+			System.out.println(getName() + ": " + val + " written");
 		}
 
 		System.out.println(getName() + ": end");
