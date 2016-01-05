@@ -26,7 +26,14 @@ public class TestSyncConsole extends Thread {
 	}
 	
 	public static void main(String[] args){
-		new TestSyncConsole("Thread A").start();
+		Thread a = new TestSyncConsole("Thread A");
+		a.start();
+		/* try {
+			a.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		new TestSyncConsole("Thread B").start();
 	}
 }
