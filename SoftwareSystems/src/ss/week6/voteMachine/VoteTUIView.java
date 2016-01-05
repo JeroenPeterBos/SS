@@ -1,10 +1,15 @@
 package ss.week6.voteMachine;
 
+import java.io.InvalidClassException;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
-public class VoteTUIView {
+import ss.week6.WrongArgumentException;
+
+public class VoteTUIView implements Observer, VoteView{
 
 	private Scanner scanner;
 	private VoteMachine vm;
@@ -53,5 +58,30 @@ public class VoteTUIView {
 	
 	public void showError(String error){
 		System.out.println(error);
+	}
+	
+	public void update(Observable obs, Object arg){
+		if(!(arg instanceof String)){
+			try {
+				throw new InvalidClassException("argument 'arg' should be off type String");
+			} catch (InvalidClassException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String argument = (String) arg;
+		if(argument.equals("vote")){
+			
+			System.out.println("showVotes");
+			showVotes(vm.getVotes());
+		} else if(argument.equals("party")){
+			showParties(vm.getParties());
+		} else {
+			try {
+				throw new WrongArgumentException();
+			} catch (WrongArgumentException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

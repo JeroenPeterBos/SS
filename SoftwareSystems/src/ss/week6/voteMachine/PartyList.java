@@ -2,8 +2,9 @@ package ss.week6.voteMachine;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 
-public class PartyList {
+public class PartyList extends Observable{
 
 	private List<String> parties;
 	
@@ -13,6 +14,9 @@ public class PartyList {
 	
 	public void addParty(String party){
 		parties.add(party);
+		
+		setChanged();
+		notifyObservers("party");
 	}
 	
 	public boolean hasParty(String party){

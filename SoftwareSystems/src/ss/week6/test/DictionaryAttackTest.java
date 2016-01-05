@@ -1,13 +1,15 @@
 package ss.week6.test;
 
-import org.junit.Before;
-import org.junit.Test;
-import ss.week6.dictionaryattack.DictionaryAttack;
-
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ss.week6.dictionaryattack.DictionaryAttack;
 
 /**
  * Testprogram for DictionaryAttack.
@@ -21,18 +23,19 @@ public class DictionaryAttackTest {
     private DictionaryAttack dictionaryAttack;
 
     /** Path to the text file */
-    private static final String PATH = ""; //Your path to the test folder
+    private static final String PATH = "C:\\Users\\Jeroen\\Documents\\Studie\\Module2\\newWorkspace\\SS\\SoftwareSystems\\src\\ss\\week6\\test\\"; //Your path to the test folder
 
     @Before
     public void setUp() {
         dictionaryAttack = new DictionaryAttack();
         try {
-            dictionaryAttack.readPasswords(PATH + "LeakedPasswords.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			dictionaryAttack.readPasswords(PATH + "LeakedPasswords.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
-
+    
     /**
      * Test for <tt>getPasswordHash</tt>
      */

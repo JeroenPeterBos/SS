@@ -19,7 +19,7 @@ public class Zipper {
     public static String zip2(String s1, String s2){
     	try {
     		if(s1 == null || s2 == null){
-    			throw new TooFewArgumentsException("error: must pass two command line arguments");
+    			throw new TooFewArgumentsException();
     		} else if (s1.length() != s2.length()){
     			throw new ArgumentLengthsDifferException(s1.length(), s2.length());
     		}

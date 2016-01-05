@@ -3,25 +3,29 @@ package ss.week6.voteMachine;
 import java.util.List;
 import java.util.Map;
 
+import ss.week6.voteMachine.gui.VoteGUIView;
+
 public class VoteMachine {
 
 	private PartyList partyList;
 	private VoteList voteList;
-	private VoteTUIView tui;
+	private VoteView ui;
 	
 	public VoteMachine(){
+		ui = new VoteTUIView(this);
 		partyList = new PartyList();
+		partyList.addObserver(ui);
 		voteList = new VoteList();
-		tui = new VoteTUIView(this);
+		voteList.addObserver(ui);
 	}
 	
 	public void start(){
-		tui.start();
+		ui.start();
 	}
 	
 	public void addParty(String party){
 		partyList.addParty(party);
-		voteList.newParty(party);
+		voteList.newParty(party, 0);
 	}
 	
 	public void vote(String party){

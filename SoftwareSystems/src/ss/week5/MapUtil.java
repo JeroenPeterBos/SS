@@ -8,7 +8,9 @@ import java.util.Set;
 
 public class MapUtil {
 	
-	//@ ensures \result == true || \result == false;
+	//@ requires v != null;
+	//@ ensures map.equals(\old(map));
+	//@ ensures \result == (\forall V v; map.containsValue(v); (\forall V v2; map.containsValue(v2) && !(v == v2); !v.equals(v2)); 
     /*@ pure */ public static <K, V> boolean isOneOnOne(Map<K, V> map) {
         HashSet<V> v = new HashSet<V>();
         for(V val: map.values()){
@@ -19,8 +21,10 @@ public class MapUtil {
         return true;
     }
     
-    
-    public static <K, V> boolean isSurjectiveOnRange(Map<K, V> map, Set<V> range) {
+    //@ requires map != null;
+    //@ requires range != null;
+    //@ ensures \result == (\forall V val; range.contains(val); (\exists K key; map.containsKey(key); map.get(key).equals(val));
+    /*@ pure */public static <K, V> boolean isSurjectiveOnRange(Map<K, V> map, Set<V> range) {
         for(V val : range){
         	if(!map.containsValue(val)){
         		return false;
@@ -29,6 +33,8 @@ public class MapUtil {
         return true;
     }
     
+    //@ requires map != null;
+    //@ ensures (\forall V key; map.containsKey(key); \result.get(map.get(key)).contains(key);
     public static <K, V> Map<V, Set<K>> inverse(Map<K, V> map) {
     	Map<V, Set<K>> result = new HashMap<V, Set<K>>();
     	
@@ -50,6 +56,10 @@ public class MapUtil {
     	}
     	return result;
 	}
+    
+    //@ requires map != null;
+    //@ ensures \result.size() == map.size();
+    //@ ensures (\forall K key; map.containsKey(key); key.equals(\result.get(map.get(key))));
 	public static <K, V> Map<V, K> inverseBijection(Map<K, V> map) {
 		Map<V, K> result = new HashMap<V, K>();
 		
@@ -61,6 +71,8 @@ public class MapUtil {
 		
 		return result;
 	}
+	//@ requires f != null && g != null;
+	//@ ensures (\forall K key; f.containsKey(key); g.containsKey(f.get(key)));
 	public static <K, V, W> boolean compatible(Map<K, V> f, Map<V, W> g) {
         for(V val : f.values()){
         	if(!g.containsKey(val)){
@@ -69,6 +81,11 @@ public class MapUtil {
         }
         return true;
 	}
+	
+	//@ requires f != null;
+	//@ requires g != null;
+	//@ requires compatibel(f, g);
+	//@ ensures (\forall K key; \result.containsKey(key); \result.get(key).equals(g.get(f.get(key)));
 	public static <K, V, W> Map<K, W> compose(Map<K, V> f, Map<V, W> g) {
         Map<K, W> result = new HashMap<K, W>();
         

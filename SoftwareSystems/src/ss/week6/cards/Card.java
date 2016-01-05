@@ -5,6 +5,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.EOFException;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -337,7 +338,7 @@ public class Card implements Serializable
 	 * @param out the output PrintWriter
 	 */
 	public void write(PrintWriter out){
-		out.write(toString() + " ");
+		out.println(toString());
 	}
 	
 	public void write(DataOutput out) throws IOException{
@@ -357,8 +358,10 @@ public class Card implements Serializable
 			throw new EOFException();
 		}
 		
-		char s = Card.suitString2Char(scanner.next());
-		char r = Card.rankString2Char(scanner.next());
+		String[] data = scanner.nextLine().split(" ");
+		
+		char s = Card.suitString2Char(data[0]);
+		char r = Card.rankString2Char(data[1]);
 		
 		scanner.close();
 		if(!Card.isValidRank(r) || !Card.isValidSuit(s)){
@@ -373,11 +376,11 @@ public class Card implements Serializable
 		try{
 			suit = in.readChar();
 			rank = in.readChar();	
+		} catch(EOFException e){
+			throw e;
 		} catch(IOException e){
-			e.printStackTrace();
-			throw new EOFException();
+			return null;
 		}
-
 		
 		if(!Card.isValidSuit(suit) || !Card.isValidRank(rank)){
 			return null;
@@ -390,9 +393,10 @@ public class Card implements Serializable
 		Card result;
 		try {
 			 result = (Card)in.readObject();
+		} catch (EOFException e){
+			throw e;
 		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-			throw new EOFException();
+			return null;
 		}
 		return result;
 	}
@@ -406,13 +410,12 @@ public class Card implements Serializable
 			if(args.length < 1){
 				out = new PrintWriter(System.out);
 			} else {
-				out = new PrintWriter(args[0]);
+				out = new PrintWriter(new FileWriter(args[0]), true);
 			}
 			c.write(out);
 			c2.write(out);
 			out.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
