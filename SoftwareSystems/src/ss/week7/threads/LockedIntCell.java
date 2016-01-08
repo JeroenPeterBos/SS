@@ -11,7 +11,7 @@ public class LockedIntCell implements IntCell{
 	private static ReentrantLock writersLock = new ReentrantLock();
 	private static ReentrantLock readersLock = new ReentrantLock();
 
-	public void setValue(int valueArg) {
+	public synchronized void setValue(int valueArg) {
 		writersLock.lock();
 		if(unconsumed){
 			try {
@@ -25,7 +25,7 @@ public class LockedIntCell implements IntCell{
 		writersLock.unlock();
 	}
 
-	public int getValue() {
+	public synchronized int getValue() {
 		readersLock.lock();
 		int res = value;
 		unconsumed = false;
