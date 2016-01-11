@@ -7,7 +7,7 @@ public class Account {
 
 	public synchronized void transaction(double amount) {
 		if(amount < 0){
-			if(balance + amount < -1000){
+			while(balance + amount < -1000){
 				try {
 					wait();
 				} catch (InterruptedException e) {

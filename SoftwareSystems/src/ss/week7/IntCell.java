@@ -3,10 +3,10 @@ package ss.week7;
 public class IntCell {
     private int contents = 0;
 
-    public void add(int amount) {
+    public synchronized void add(int amount) {
         contents = contents + amount;
     }
-    public int get() {
+    public synchronized int get() {
         return contents;
     }
 
@@ -25,6 +25,11 @@ public class IntCell {
         System.out.println(cell.get());
     }
 }
+
+// 7.20.1:		1, 2, 3
+// 7.20.2:		3 omdat het programma nu sequentieel is
+// 7.20.3:		0, 1, 2, 3
+// 7.20.4:		3 omdat 2 mogelijkheden --> 0 + 1 + 2 = 3 || 0 + 2 + 1 = 3
 
 class Adder extends Thread {
     private IntCell cell;

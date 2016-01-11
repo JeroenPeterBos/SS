@@ -27,7 +27,7 @@ public class Client extends Thread{
 		}
 		
 		InetAddress host=null;
-		int port =0;
+		int port = 0;
 
 		try {
 			host = InetAddress.getByName(args[1]);
@@ -70,7 +70,10 @@ public class Client extends Thread{
 	 */
 	public Client(String name, InetAddress host, int port)
 			throws IOException {
-		// TODO insert body
+		this.clientName = name;
+		this.sock = new Socket(host, port);
+		this.in = new BufferedReader(new InputStreamReader(this.sock.getInputStream()));
+		this.out = new BufferedWriter(new OutputStreamWriter(this.sock.getOutputStream()));
 	}
 
 	/**
@@ -78,18 +81,39 @@ public class Client extends Thread{
 	 * be forwarded to the MessageUI
 	 */
 	public void run() {
-		// TODO insert body
+		boolean running = true;
+		while(running){
+			try {
+				System.out.println(in.readLine());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
-		// TODO insert body
+		try {
+			out.write(msg);
+			out.newLine();
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/** close the socket connection. */
 	public void shutdown() {
 		print("Closing socket connection...");
-		// TODO insert body
+		try {
+			in.close();
+			out.close();
+			sock.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/** returns the client name */

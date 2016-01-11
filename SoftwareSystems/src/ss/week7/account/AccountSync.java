@@ -8,6 +8,9 @@ public class AccountSync {
 		Thread a = new MyThread(-100.0, 1000, account);
 		Thread b = new MyThread(100.0, 1000, account);
 		
+		// Thread a = new Thread(new MyThread(-100.0, 1000, account));
+		// Thread b = new Thread(new MyThread(100.0, 1000, account));
+		
 		a.start();
 		b.start();
 		

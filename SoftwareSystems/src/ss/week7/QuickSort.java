@@ -8,10 +8,21 @@ public class QuickSort {
     public static void qsort(int[] a, int first, int last) {
         if (first < last) {
             int position = partition(a, first, last);
-            qsort(a, first, position - 1);
-            qsort(a, position + 1, last);
+            Thread t1 = new QsortThread(a, first, position - 1);
+            Thread t2 = new QsortThread(a, position + 1, last);
+            t1.start();
+            t2.start();
+            
+            try {
+				t1.join();
+				t2.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
+    
     public static int partition(int[] a, int first, int last) {
 
         int mid = (first + last) / 2;
@@ -35,4 +46,20 @@ public class QuickSort {
         a[j] = tmp;
     }
 
+    
+}
+ class QsortThread extends Thread{
+
+	private int[] a;
+	private int first, last;
+	
+	public QsortThread(int[] a, int first, int last){
+		this.a = a;
+		this.first = first;
+		this.last = last;
+	}
+
+	public void run(){
+		QuickSort.qsort(a, first, last);
+	}
 }
